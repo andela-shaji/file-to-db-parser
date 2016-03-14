@@ -8,7 +8,7 @@ import checkpoint.andela.parser.FileParser;
 import java.util.concurrent.*;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
 public class Main {
     private String logPath;
@@ -59,4 +59,6 @@ public class Main {
     public void setDbPath(String dbPath) {
         this.dbPath = dbPath;
     }
+
+
 }

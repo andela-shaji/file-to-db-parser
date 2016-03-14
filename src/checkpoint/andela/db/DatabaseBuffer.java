@@ -5,9 +5,10 @@ import checkpoint.andela.parser.AttributeValuePair;
 import java.util.Hashtable;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
 public class DatabaseBuffer {
+
     private Hashtable<String, String> databaseRecord;
 
     public DatabaseBuffer() {
@@ -29,4 +30,5 @@ public class DatabaseBuffer {
     public String getUniqueId() {
         return databaseRecord.get("UNIQUE-ID");
     }
+
 }
