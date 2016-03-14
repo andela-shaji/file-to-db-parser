@@ -9,29 +9,32 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 /**
- * Created by suadahaji on 3/14/16.
+ * Created by suadahaji.
  */
-public class LogBufferTest {
+public class LogTest {
 
     String fileParserLog;
-    String databaseLog;
     String columnValue;
     LogBuffer logBuffer;
     LogWriter logWriter;
 
-
-
-
     @Before
     public void setUp() throws Exception {
         logBuffer = LogBuffer.getBuffer();
-
         fileParserLog = "FileParser";
-        databaseLog = "DBWriter";
-
         columnValue = "RXN-8739";
+    }
+
+    @Test
+    public void testWriteToLog() throws Exception {
+        logBuffer.getLogList();
+        int logBufferSizeBefore = logBuffer.getLogListSize();
+
         logBuffer.writeToLog(fileParserLog, columnValue);
-        //logBuffer.writeToLog(databaseLog, columnValue);
+
+        int logBufferSizeAfter = logBuffer.getLogListSize();
+
+        assertTrue(logBufferSizeAfter > logBufferSizeBefore);
     }
 
 
@@ -46,20 +49,11 @@ public class LogBufferTest {
 
         logWriter = new LogWriter(DatabaseConstants.LOGPATH);
 
-        logWriter.writeToFile();
+        logWriter.run();
 
         long lengthAfter = file.length();
 
         assertTrue(lengthAfter > lengthBefore);
-
-    }
-    @Test
-    public void testGetBuffer() throws Exception {
-
-    }
-
-    @Test
-    public void testWriteToLog() throws Exception {
 
     }
 }

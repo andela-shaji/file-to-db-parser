@@ -1,6 +1,6 @@
 package checkpoint.andela.parser;
 
-import checkpoint.andela.db.DatabaseBuffer;
+import checkpoint.andela.db.DatabaseRecord;
 import checkpoint.andela.log.LogBuffer;
 
 import java.io.BufferedReader;
@@ -18,13 +18,13 @@ public class FileParser implements Runnable {
 
     private FileReader fileReader;
 
-    private BlockingQueue<DatabaseBuffer> dataRecords;
+    private BlockingQueue<DatabaseRecord> dataRecords;
 
     private BufferedReader bufferedReader;
 
     LogBuffer logBuffer = LogBuffer.getBuffer();
 
-    public FileParser(BlockingQueue<DatabaseBuffer> dataRecords, String filePath) {
+    public FileParser(BlockingQueue<DatabaseRecord> dataRecords, String filePath) {
         this.dataRecords = dataRecords;
         this.filePath = filePath;
     }
@@ -45,7 +45,7 @@ public class FileParser implements Runnable {
 
     public void writeToBuffer() {
         try {
-            DatabaseBuffer newDataRecord = new DatabaseBuffer();
+            DatabaseRecord newDataRecord = new DatabaseRecord();
             readFile();
             String contentLine = bufferedReader.readLine();
             while (!isNull(contentLine)) {
@@ -63,13 +63,13 @@ public class FileParser implements Runnable {
         }
     }
 
-    private void processLine(String line, DatabaseBuffer newDbRecord) {
+    private void processLine(String line, DatabaseRecord newDbRecord) {
         String[] rowData = line.split(" - ");
         if (rowData.length == 2) {
             AttributeValuePair pair = new AttributeValuePair();
             pair.setKey(rowData[0].trim());
             pair.setValue(rowData[1].trim());
-            newDbRecord.addRow(pair);
+            newDbRecord.addColumn(pair);
         }
     }
 

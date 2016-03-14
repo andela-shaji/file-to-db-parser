@@ -6,19 +6,19 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by suadahaji on 3/13/16.
+ * Created by suadahaji.
  */
-public class DatabaseBufferTest {
+public class DatabaseRecordTest {
 
-    DatabaseBuffer databaseBuffer = new DatabaseBuffer();
+    DatabaseRecord databaseRecord = new DatabaseRecord();
 
     @Test
-    public void testAddRow() throws Exception {
+    public void testAddColumn() throws Exception {
         AttributeValuePair pair = new AttributeValuePair();
         pair.setKey("TYPES");
         pair.setValue("Small-Molecule-Reactions");
-        databaseBuffer.addRow(pair);
-        assertEquals(databaseBuffer.getdbRecordSize(), 1);
+        databaseRecord.addColumn(pair);
+        assertEquals(databaseRecord.getDbRecordSize(), 1);
     }
 
     @Test
@@ -26,14 +26,14 @@ public class DatabaseBufferTest {
         AttributeValuePair pair1 = new AttributeValuePair();
         pair1.setKey("TYPES");
         pair1.setValue("Chemical-Reactions");
-        databaseBuffer.addRow(pair1);
-        assertEquals(databaseBuffer.getdbRecordSize(), 1);
+        databaseRecord.addColumn(pair1);
+        assertEquals(databaseRecord.getDbRecordSize(), 1);
 
         AttributeValuePair pair2 = new AttributeValuePair();
         pair2.setKey("CREDITS");
         pair2.setValue("|kaipa|");
-        databaseBuffer.addRow(pair2);
-        assertTrue(databaseBuffer.getdbRecordSize() == 2);
+        databaseRecord.addColumn(pair2);
+        assertTrue(databaseRecord.getDbRecordSize() == 2);
     }
 
     @Test
@@ -41,18 +41,18 @@ public class DatabaseBufferTest {
         AttributeValuePair pair3 = new AttributeValuePair();
         pair3.setKey("TYPES");
         pair3.setValue("Small-Molecule-Reactions");
-        databaseBuffer.addRow(pair3);
+        databaseRecord.addColumn(pair3);
 
         AttributeValuePair pair4 = new AttributeValuePair();
         pair4.setKey("ENZYMATIC-REACTION");
         pair4.setValue("ENZRXNMT2-14");
-        databaseBuffer.addRow(pair4);
+        databaseRecord.addColumn(pair4);
 
         AttributeValuePair pair5 = new AttributeValuePair();
         pair5.setKey("UNIQUE-ID");
         pair5.setValue("6-PHOSPHO-BETA-GALACTOSIDASE-RXN");
-        databaseBuffer.addRow(pair5);
+        databaseRecord.addColumn(pair5);
 
-        assertTrue(databaseBuffer.getUniqueId() == "6-PHOSPHO-BETA-GALACTOSIDASE-RXN");
+        assertTrue(databaseRecord.getUniqueId() == "6-PHOSPHO-BETA-GALACTOSIDASE-RXN");
     }
 }

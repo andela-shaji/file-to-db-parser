@@ -8,13 +8,6 @@ public class AttributeValuePair {
 
     private String value = null;
 
-    public AttributeValuePair() {}
-
-    public AttributeValuePair(String key, String value) {
-        setKey(key);
-        setValue(value);
-    }
-
     public void setValue(String value) {
         this.value = value;
     }

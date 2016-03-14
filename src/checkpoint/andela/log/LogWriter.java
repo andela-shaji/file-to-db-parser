@@ -5,7 +5,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by suadahaji on 3/10/16.
+ * Created by suadahaji.
  */
 public class LogWriter implements Runnable {
 
@@ -14,7 +14,6 @@ public class LogWriter implements Runnable {
     private BufferedWriter bufferedWriter;
 
     private String filePath;
-
 
     public LogWriter(String filePath) {
         this.filePath = filePath;
@@ -36,7 +35,6 @@ public class LogWriter implements Runnable {
             while (!logBuffer.isEmpty()) {
                 bufferedWriter.write("\n" + logBuffer.getLogBuffer());
             }
-
         } catch (Exception ioe) {
             ioe.printStackTrace();
         } finally {

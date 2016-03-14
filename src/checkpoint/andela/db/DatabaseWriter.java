@@ -15,11 +15,9 @@ import java.util.concurrent.BlockingQueue;
  */
 public class DatabaseWriter implements Runnable {
 
-    BlockingQueue<DatabaseBuffer> dbRecords;
+    BlockingQueue<DatabaseRecord> dbRecords;
     LogBuffer logBuffer = LogBuffer.getBuffer();
     ArrayList<String> existingDatabases = new ArrayList<String>();
-    ArrayList<String> existingTables = new ArrayList<String>();
-    ArrayList<String> columnName = new ArrayList<String>();
 
     private String db_Url = DatabaseConstants.DB_URL;
     private String db_Name = DatabaseConstants.DBNAME;
@@ -28,10 +26,7 @@ public class DatabaseWriter implements Runnable {
     private Connection connection = null;
     private Statement statement = null;
 
-    public DatabaseWriter() {
-    }
-
-    public DatabaseWriter(BlockingQueue<DatabaseBuffer> dbRecords) {
+    public DatabaseWriter(BlockingQueue<DatabaseRecord> dbRecords) {
         this.dbRecords = dbRecords;
     }
 
@@ -49,7 +44,7 @@ public class DatabaseWriter implements Runnable {
         return connection;
     }
 
-    public Connection connectToDatabase(String dbName) throws SQLException {
+    private Connection connectToDatabase(String dbName) throws SQLException {
         registerDriver(DatabaseConstants.DRIVER);
         Connection connectDb = DriverManager.getConnection(db_Url + db_Name, db_User, db_Password);
         return connectDb;
@@ -70,7 +65,6 @@ public class DatabaseWriter implements Runnable {
             System.out.println("Database successfully created");
         }
     }
-
 
     public void deleteDatabase(String databaseName) throws SQLException {
         if (databaseExists(databaseName)) {
@@ -99,33 +93,29 @@ public class DatabaseWriter implements Runnable {
 
     public void writeToDatabase() throws InterruptedException {
         while (!isRecordEmpty()) {
-            DatabaseBuffer getRecord = getRecord();
+            DatabaseRecord getRecord = getRecord();
             logBuffer.writeToLog("DBWriter", getRecord.getUniqueId());
             insertTableQuery(getRecord);
         }
     }
 
-    public DatabaseBuffer getRecord() throws InterruptedException {
+    public DatabaseRecord getRecord() throws InterruptedException {
         return dbRecords.take();
     }
 
-    /* public void setColumnName(ArrayList<String> column) {
-         columnName = column;
-     }
- */
-    private void insertTableQuery(DatabaseBuffer databaseBuffer) {
-        String attribute = null;
-        String value = null;
+    private void insertTableQuery(DatabaseRecord databaseRecord) {
+        String attribute = "";
+        String value = "";
 
-        Hashtable<String, String> insertRecord = databaseBuffer.getRecord();
+        Hashtable<String, String> insertRecord = databaseRecord.getRecord();
         for (String key : insertRecord.keySet()) {
             attribute += "`" + key + "`, ";
-            value += "`" + insertRecord.get(key) + "`, ";
+            value += "'" + insertRecord.get(key) + "', ";
         }
         attribute = attribute.substring(0, attribute.length() - 2);
         value = value.substring(0, value.length() - 2);
 
-        String insertDataQuery = "INSERT INTO reactiondb.reactions (" + attribute + " )" + " VALUES (" + value + " )";
+        String insertDataQuery = "INSERT INTO `reactiondb`.`reactions` (" + attribute + " )" + " VALUES (" + value + " );";
         executeQuery(insertDataQuery);
         System.out.println("New row inserted");
     }

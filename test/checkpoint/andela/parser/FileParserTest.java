@@ -1,23 +1,20 @@
 package checkpoint.andela.parser;
 
-import checkpoint.andela.db.DatabaseBuffer;
+import checkpoint.andela.db.DatabaseRecord;
 import checkpoint.andela.db.DatabaseConstants;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by suadahaji on 3/13/16.
+ * Created by suadahaji.
  */
 public class FileParserTest {
-    private BlockingQueue<DatabaseBuffer> dataRecords = new ArrayBlockingQueue<DatabaseBuffer>(10);
+    private BlockingQueue<DatabaseRecord> dataRecords = new ArrayBlockingQueue<DatabaseRecord>(10);
     private String filePath;
     FileParser fileParser;
 
@@ -34,7 +31,6 @@ public class FileParserTest {
         fileParserThread.start();
         assertTrue(fileParserThread.isAlive());
 
-       assertTrue(dataRecords.size() > 0);
     }
 
     @Test
@@ -58,13 +54,13 @@ public class FileParserTest {
         assertEquals(pair.getKey(), "LEFT");
         assertEquals(pair2.getValue(), "Chemical-Reactions");
 
-        DatabaseBuffer newDataRecord = new DatabaseBuffer();
+        DatabaseRecord newDataRecord = new DatabaseRecord();
 
-        newDataRecord.addRow(pair);
-        assertEquals(newDataRecord.getdbRecordSize(), 1);
+        newDataRecord.addColumn(pair);
+        assertEquals(newDataRecord.getDbRecordSize(), 1);
 
-        newDataRecord.addRow(pair2);
-        assertEquals(newDataRecord.getdbRecordSize(), 2);
+        newDataRecord.addColumn(pair2);
+        assertEquals(newDataRecord.getDbRecordSize(), 2);
     }
 
 }

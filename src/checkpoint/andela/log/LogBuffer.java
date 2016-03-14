@@ -39,6 +39,14 @@ public class LogBuffer {
         return logList.take();
     }
 
+    public BlockingQueue<String> getLogList() {
+        return logList;
+    }
+
+    public int getLogListSize() {
+        return logList.size();
+    }
+
     public boolean isEmpty() {
         return logList.isEmpty();
     }
