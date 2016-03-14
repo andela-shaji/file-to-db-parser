@@ -127,15 +127,8 @@ public class DatabaseWriter implements Runnable {
 
     public void executeQuery(String query) {
         try {
-            /**
-             * Statements allow to issue SQL queries to the database
-             */
-            statement = connection.createStatement();
 
-            /**
-             * executeUpdate() method used when we don't expect any data to be returned.
-             * This is when we create databases or execute INSERT, UPDATE, DELETE statements.
-             */
+            statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException sql) {
             sql.printStackTrace();
