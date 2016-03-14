@@ -43,10 +43,6 @@ public class LogBuffer {
         return logList;
     }
 
-    public int getLogListSize() {
-        return logList.size();
-    }
-
     public boolean isEmpty() {
         return logList.isEmpty();
     }

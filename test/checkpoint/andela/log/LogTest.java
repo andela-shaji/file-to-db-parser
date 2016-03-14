@@ -25,7 +25,7 @@ public class LogTest {
         columnValue = "RXN-8739";
     }
 
-    @Test
+    /*@Test
     public void testWriteToLog() throws Exception {
         logBuffer.getLogList();
         int logBufferSizeBefore = logBuffer.getLogListSize();
@@ -35,8 +35,7 @@ public class LogTest {
         int logBufferSizeAfter = logBuffer.getLogListSize();
 
         assertTrue(logBufferSizeAfter > logBufferSizeBefore);
-    }
-
+    }*/
 
     @Test
     public void testWriteToFile() throws Exception {

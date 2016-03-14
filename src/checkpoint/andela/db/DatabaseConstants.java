@@ -10,9 +10,7 @@ public class DatabaseConstants {
     public static final String USER = "root";
     public static final String PASS = "password";
     public static final String DBNAME = "reactiondb";
-    public static final String TABLENAME = "reactions";
     public static final String FILEPATH = "lib/reactions2.dat";
     public static final String LOGPATH = "lib/log.txt";
-    public static final String TESTFILE = "lib/testFile.txt";
 
 }
