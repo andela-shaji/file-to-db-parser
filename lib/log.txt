@@ -19,3 +19,12 @@ FileParser Thread (14/03/16 21:41)---- wrote UNIQUE-ID RXN-8739 to buffer.
 FileParser Thread (14/03/16 21:42)---- wrote UNIQUE-ID RXN-8739 to buffer.
 FileParser Thread (14/03/16 22:01)---- wrote UNIQUE-ID RXN-8739 to buffer.
 FileParser Thread (14/03/16 22:01)---- wrote UNIQUE-ID RXN-8739 to buffer.
+FileParser Thread (14/03/16 22:13)---- wrote UNIQUE-ID RXN-8739 to buffer.
+FileParser Thread (14/03/16 22:13)---- wrote UNIQUE-ID RXN-8739 to buffer.
+FileParser Thread (14/03/16 22:52)---- wrote UNIQUE-ID RXN-8748 to buffer.
+FileParser Thread (14/03/16 22:57)---- wrote UNIQUE-ID RXN-8739 to buffer.
+FileParser Thread (14/03/16 22:58)---- wrote UNIQUE-ID RXN-8739 to buffer.
+FileParser Thread (14/03/16 23:01)---- wrote UNIQUE-ID RXN-8739 to buffer.
+DBWriter Thread (14/03/16 23:09) --- collected UNIQUE-ID 0.7004203309635058 from buffer to database
+DBWriter Thread (14/03/16 23:16) --- collected UNIQUE-ID 0.1912027103729771 from buffer to database
+FileParser Thread (14/03/16 23:16)---- wrote UNIQUE-ID RXN-8748 to buffer.
