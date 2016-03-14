@@ -1,5 +1,7 @@
 package checkpoint.andela.db;
 
+import checkpoint.andela.log.LogBuffer;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -11,10 +13,9 @@ import java.util.concurrent.BlockingQueue;
 public class DatabaseWriter implements Runnable {
     BlockingQueue<DatabaseBuffer> dbRecords;
     LogBuffer logBuffer = new LogBuffer();
-    ArrayList<String> existingDatabases = new ArrayList<>();
-    ArrayList<String> existingTables = new ArrayList<>();
-    ArrayList<String> columnName = new ArrayList<>();
-
+    ArrayList<String> existingDatabases = new ArrayList<String>();
+    ArrayList<String> existingTables = new ArrayList<String>();
+    ArrayList<String> columnName = new ArrayList<String>();
     private String db_Url = DatabaseConstants.DB_URL;
     private String db_Name = DatabaseConstants.DBNAME;
     private String db_Password = DatabaseConstants.PASS;
@@ -149,7 +150,7 @@ public class DatabaseWriter implements Runnable {
 
     public ArrayList<String> getExistingDatabases() throws SQLException {
         createDatabaseConnection(DatabaseConstants.DRIVER);
-        ArrayList<String> listDatabases = new ArrayList<>();
+        ArrayList<String> listDatabases = new ArrayList<String>();
         ResultSet databases = connection.getMetaData().getCatalogs();
         while (databases.next()) {
             listDatabases.add(databases.getString(1));
