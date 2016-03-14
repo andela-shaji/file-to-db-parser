@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
 public class FileParser implements Runnable {
+
     private String filePath;
 
     private FileReader fileReader;
@@ -21,14 +22,12 @@ public class FileParser implements Runnable {
 
     private BufferedReader bufferedReader;
 
-    LogBuffer logBuffer = new LogBuffer();
+    LogBuffer logBuffer = LogBuffer.getBuffer();
 
     public FileParser(BlockingQueue<DatabaseBuffer> dataRecords, String filePath) {
         this.dataRecords = dataRecords;
         this.filePath = filePath;
     }
-
-    public FileParser() {}
 
     public BufferedReader readFile() throws IOException {
 
@@ -49,7 +48,7 @@ public class FileParser implements Runnable {
             DatabaseBuffer newDataRecord = new DatabaseBuffer();
             readFile();
             String contentLine = bufferedReader.readLine();
-            while (contentLine != null) {
+            while (!isNull(contentLine)) {
                 if (!hasComment(contentLine) && !hasDelimiter(contentLine)) {
                     processLine(contentLine, newDataRecord);
                 } else if (hasDelimiter(contentLine)) {
@@ -57,15 +56,16 @@ public class FileParser implements Runnable {
                     dataRecords.put(newDataRecord);
                     logBuffer.writeToLog("FileParser", uniqueId);
                 }
+                contentLine = bufferedReader.readLine();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void processLine(String line, DatabaseBuffer newDbRecord) {
+    private void processLine(String line, DatabaseBuffer newDbRecord) {
         String[] rowData = line.split(" - ");
-        if (rowData.length > 1) {
+        if (rowData.length == 2) {
             AttributeValuePair pair = new AttributeValuePair();
             pair.setKey(rowData[0].trim());
             pair.setValue(rowData[1].trim());
@@ -73,17 +73,22 @@ public class FileParser implements Runnable {
         }
     }
 
-    public boolean hasComment(String currentLine) {
+    private boolean hasComment(String currentLine) {
         if (currentLine.startsWith("#")) {
             return true;
         }
         return false;
     }
 
-    public boolean hasDelimiter(String currentLine) {
+    private boolean isNull(String currentLine) {
+        return currentLine == null;
+    }
+
+    private boolean hasDelimiter(String currentLine) {
         if (currentLine.startsWith("//")) {
             return true;
         }
         return false;
     }
+
 }

@@ -2,20 +2,25 @@ package checkpoint.andela.db;
 
 import checkpoint.andela.log.LogBuffer;
 
+
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
 public class DatabaseWriter implements Runnable {
+
     BlockingQueue<DatabaseBuffer> dbRecords;
-    LogBuffer logBuffer = new LogBuffer();
+    LogBuffer logBuffer = LogBuffer.getBuffer();
     ArrayList<String> existingDatabases = new ArrayList<String>();
     ArrayList<String> existingTables = new ArrayList<String>();
     ArrayList<String> columnName = new ArrayList<String>();
+
     private String db_Url = DatabaseConstants.DB_URL;
     private String db_Name = DatabaseConstants.DBNAME;
     private String db_Password = DatabaseConstants.PASS;
@@ -46,11 +51,11 @@ public class DatabaseWriter implements Runnable {
 
     public Connection connectToDatabase(String dbName) throws SQLException {
         registerDriver(DatabaseConstants.DRIVER);
-        Connection connectDb = DriverManager.getConnection(db_Url+db_Name, db_User, db_Password );
+        Connection connectDb = DriverManager.getConnection(db_Url + db_Name, db_User, db_Password);
         return connectDb;
     }
 
-    public void registerDriver(String driver) {
+    private void registerDriver(String driver) {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException cnfe) {
@@ -96,7 +101,7 @@ public class DatabaseWriter implements Runnable {
         while (!isRecordEmpty()) {
             DatabaseBuffer getRecord = getRecord();
             logBuffer.writeToLog("DBWriter", getRecord.getUniqueId());
-            createTableQuery(getRecord);
+            insertTableQuery(getRecord);
         }
     }
 
@@ -104,11 +109,11 @@ public class DatabaseWriter implements Runnable {
         return dbRecords.take();
     }
 
-    public void setColumnName(ArrayList<String> column) {
-        columnName = column;
-    }
-
-    private void createTableQuery(DatabaseBuffer databaseBuffer) {
+    /* public void setColumnName(ArrayList<String> column) {
+         columnName = column;
+     }
+ */
+    private void insertTableQuery(DatabaseBuffer databaseBuffer) {
         String attribute = null;
         String value = null;
 
@@ -137,7 +142,6 @@ public class DatabaseWriter implements Runnable {
 
     public boolean databaseExists(String databaseName) throws SQLException {
         existingDatabases = getExistingDatabases();
-        //System.out.println(existingDatabases);
         return existingDatabases.contains(databaseName);
     }
 
@@ -152,7 +156,7 @@ public class DatabaseWriter implements Runnable {
         return listDatabases;
     }
 
-    public boolean tableExists(String databaseName, String tableName)  throws SQLException{
+    public boolean tableExists(String databaseName, String tableName) throws SQLException {
         Connection connectDb = connectToDatabase(databaseName);
         DatabaseMetaData databaseMetaData = connectDb.getMetaData();
         ResultSet tables = databaseMetaData.getTables(null, null, tableName, null);
@@ -177,8 +181,6 @@ public class DatabaseWriter implements Runnable {
             sqle.printStackTrace();
         }
     }
-
-
     @Override
     public void run() {
 

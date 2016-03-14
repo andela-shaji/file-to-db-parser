@@ -1,15 +1,14 @@
 package checkpoint.andela.parser;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
 public class AttributeValuePair {
     private String key = null;
 
     private String value = null;
 
-    public AttributeValuePair() {
-    }
+    public AttributeValuePair() {}
 
     public AttributeValuePair(String key, String value) {
         setKey(key);
@@ -31,4 +30,6 @@ public class AttributeValuePair {
     public String getKey() {
         return key;
     }
+
+
 }

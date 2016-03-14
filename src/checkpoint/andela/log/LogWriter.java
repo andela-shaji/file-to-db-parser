@@ -1,23 +1,20 @@
 package checkpoint.andela.log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/10/16.
  */
-public class LogWriter extends LogBuffer implements Runnable {
-    private BlockingQueue<String> logBuffer = LogBuffer.getBuffer();
+public class LogWriter implements Runnable {
+
+    private LogBuffer logBuffer = LogBuffer.getBuffer();
 
     private BufferedWriter bufferedWriter;
 
     private String filePath;
 
-    private LogWriter() {
-    }
 
     public LogWriter(String filePath) {
         this.filePath = filePath;
@@ -25,29 +22,29 @@ public class LogWriter extends LogBuffer implements Runnable {
 
     @Override
     public void run() {
-
+        writeToFile();
     }
 
-    private void writeToFile() {
+    public void writeToFile() {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile();
             }
 
-            bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter = new BufferedWriter(new FileWriter(file, true));
             while (!logBuffer.isEmpty()) {
-                bufferedWriter.write(getLogBuffer());
+                bufferedWriter.write("\n" + logBuffer.getLogBuffer());
             }
 
-        } catch (IOException ioe) {
+        } catch (Exception ioe) {
             ioe.printStackTrace();
-        } catch (InterruptedException ie) {
-            ie.printStackTrace();
+        } finally {
+            try {
+                bufferedWriter.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-    private String getLogBuffer() throws InterruptedException {
-        return logBuffer.take();
     }
 }

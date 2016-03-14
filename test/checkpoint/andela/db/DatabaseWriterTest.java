@@ -1,14 +1,17 @@
 package checkpoint.andela.db;
 
+import checkpoint.andela.log.LogBuffer;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by suadahaji.
+ * Created by suadahaji on 3/13/16.
  */
 public class DatabaseWriterTest {
     DatabaseWriter dbWriter;
@@ -17,6 +20,7 @@ public class DatabaseWriterTest {
     String reactionsDatabase;
     String reactionsTable;
     ArrayList<String> tableFields;
+    ArrayList<String> tables;
 
     @Before
     public void setUp() throws Exception {
@@ -29,6 +33,7 @@ public class DatabaseWriterTest {
         tableFields.add("UNIQUE-ID");
         tableFields.add("TYPES");
         tableFields.add("ATOM-MAPPINGS");
+
     }
 
     @Test
@@ -40,7 +45,7 @@ public class DatabaseWriterTest {
 
     @Test
     public void testDeleteDatabase() throws Exception {
-        assertFalse(dbWriter.databaseExists(studentDatabase));
+        //assertFalse(dbWriter.databaseExists(studentDatabase));
         dbWriter.createDatabase(studentDatabase);
         dbWriter.deleteDatabase(studentDatabase);
         assertFalse(dbWriter.databaseExists(studentDatabase));
@@ -72,5 +77,7 @@ public class DatabaseWriterTest {
         assertTrue(dbWriter.databaseExists(reactionsDatabase));
 
     }
+
+
 
 }
