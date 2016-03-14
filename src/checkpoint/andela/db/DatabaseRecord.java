@@ -7,15 +7,15 @@ import java.util.Hashtable;
 /**
  * Created by suadahaji on 3/10/16.
  */
-public class DatabaseBuffer {
+public class DatabaseRecord {
 
     private Hashtable<String, String> databaseRecord;
 
-    public DatabaseBuffer() {
+    public DatabaseRecord() {
         databaseRecord = new Hashtable<String, String>();
     }
 
-    public void addRow(AttributeValuePair pair) {
+    public void addColumn(AttributeValuePair pair) {
         databaseRecord.put(pair.getKey(), pair.getValue());
     }
 
@@ -23,7 +23,7 @@ public class DatabaseBuffer {
         return databaseRecord;
     }
 
-    public int getdbRecordSize() {
+    public int getDbRecordSize() {
         return databaseRecord.size();
     }
 

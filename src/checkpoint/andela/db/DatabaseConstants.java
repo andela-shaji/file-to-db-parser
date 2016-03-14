@@ -15,19 +15,4 @@ public class DatabaseConstants {
     public static final String LOGPATH = "lib/log.txt";
     public static final String TESTFILE = "lib/testFile.txt";
 
-    public static String[] columnName = {
-            "UNIQUE-ID",
-            "TYPES",
-            "COMMON-NAME",
-            "ATOM-MAPPING",
-            "CREDITS",
-            "EC-NUMBER",
-            "ENZYMATIC-REACTION",
-            "IN-PATHWAY",
-            "LEFT",
-            "ORPAN?",
-            "PHYSIOLOGICALLY-RELEVANT?",
-            "REACTION-DIRECTION",
-            "RIGHT",
-    };
 }

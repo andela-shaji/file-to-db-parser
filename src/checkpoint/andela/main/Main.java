@@ -1,9 +1,6 @@
 package checkpoint.andela.main;
 
-import checkpoint.andela.db.DatabaseBuffer;
-import checkpoint.andela.db.DatabaseWriter;
-import checkpoint.andela.log.LogWriter;
-import checkpoint.andela.parser.FileParser;
+import checkpoint.andela.db.DatabaseRecord;
 
 import java.util.concurrent.*;
 
@@ -14,7 +11,7 @@ public class Main {
     private String logPath;
     private String dbPath;
 
-    public static BlockingQueue<DatabaseBuffer> dbRecords = new ArrayBlockingQueue<DatabaseBuffer>(1);
+    public static BlockingQueue<DatabaseRecord> dbRecords = new ArrayBlockingQueue<DatabaseRecord>(1);
     private static Future newActivity = null;
 
     Runnable fileParserThread;
@@ -27,7 +24,7 @@ public class Main {
     }
 
     public void parseToDatabase() throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(5);
+        /*ExecutorService executor = Executors.newFixedThreadPool(5);
         fileParserThread = new FileParser(dbRecords, dbPath);
         dbWriterThread = new DatabaseWriter();
         logWriteThread = new LogWriter(logPath);
@@ -39,7 +36,7 @@ public class Main {
         if (newActivity == null) {
             executor.awaitTermination(60, TimeUnit.SECONDS);
             executor.shutdown();
-        }
+        }*/
 
 
     }

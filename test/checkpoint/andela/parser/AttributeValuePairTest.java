@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by suadahaji on 3/13/16.
+ * Created by suadahaji.
  */
 public class AttributeValuePairTest {
     AttributeValuePair pair = new AttributeValuePair();
