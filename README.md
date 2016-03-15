@@ -7,7 +7,6 @@ A thread reads in the data into a buffer(temporary storage), another writes it i
 ## Classes
 
 ## checkpoint.andela.parser.FileParser
-----
 This class implements the Runnable class to read in and parse the attached document(reactant.dat) into a buffer.
 ```sh
  public BufferedReader readFile() throws IOException {
