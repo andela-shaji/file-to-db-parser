@@ -34,10 +34,10 @@ public void writeToBuffer() {
                 }
                 contentLine = bufferedReader.readLine();
             }
-        } catch (Exception e) {
+       } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
+       }
+ }
 ```
 
 ## checkpoint.andela.db.DatabaseWriter
@@ -51,7 +51,7 @@ public void writeToDatabase() throws InterruptedException {
             logBuffer.writeToLog("DBWriter", getRecord.getUniqueId());
             insertTableQuery(getRecord);
         }
-    }
+ }
 ```
 
 ## checkpoint.andela.log.LogWriter
@@ -86,3 +86,6 @@ The log could look like this:
 FileParser Thread (2015-09-01 10:20:32)---- wrote UNIQUE ID RXN-8739 to buffer
 DBWriter Thread (2015-09-01 10:20:33) ----- collected UNIQUE ID RXN1001 from buffer
 ```
+
+## Test 
+Tests for the various packages have also been created.
