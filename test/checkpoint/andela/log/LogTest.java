@@ -22,27 +22,15 @@ public class LogTest {
     public void setUp() throws Exception {
         logBuffer = LogBuffer.getBuffer();
         fileParserLog = "FileParser";
-        columnValue = "RXN-8739";
+        columnValue = Double.toString(Math.random());
     }
-
-    /*@Test
-    public void testWriteToLog() throws Exception {
-        logBuffer.getLogList();
-        int logBufferSizeBefore = logBuffer.getLogListSize();
-
-        logBuffer.writeToLog(fileParserLog, columnValue);
-
-        int logBufferSizeAfter = logBuffer.getLogListSize();
-
-        assertTrue(logBufferSizeAfter > logBufferSizeBefore);
-    }*/
 
     @Test
     public void testWriteToFile() throws Exception {
+
+        //logBuffer.writeToLog(fileParserLog, columnValue);
+
         File file = new File(DatabaseConstants.LOGPATH);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
 
         long lengthBefore = file.length();
 

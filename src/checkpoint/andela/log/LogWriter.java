@@ -1,8 +1,6 @@
 package checkpoint.andela.log;
 
 import java.io.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by suadahaji.
@@ -33,7 +31,7 @@ public class LogWriter implements Runnable {
 
             bufferedWriter = new BufferedWriter(new FileWriter(file, true));
             while (!logBuffer.isEmpty()) {
-                bufferedWriter.write("\n" + logBuffer.getLogBuffer());
+                bufferedWriter.write("\n" + logBuffer.getLogList());
             }
         } catch (Exception ioe) {
             ioe.printStackTrace();

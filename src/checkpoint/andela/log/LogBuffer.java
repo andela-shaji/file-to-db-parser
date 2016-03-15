@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by suadahaji on 3/10/16.
+ * Created by suadahaji.
  */
 public class LogBuffer {
     private static BlockingQueue<String> logList =  new ArrayBlockingQueue<String>(1);
@@ -35,12 +35,8 @@ public class LogBuffer {
         }
     }
 
-    public String getLogBuffer() throws InterruptedException {
+    public String getLogList() throws InterruptedException {
         return logList.take();
-    }
-
-    public BlockingQueue<String> getLogList() {
-        return logList;
     }
 
     public boolean isEmpty() {
@@ -51,7 +47,7 @@ public class LogBuffer {
         if (currentLog.equals("FileParser")) {
             return " to buffer.";
         }
-        return " from buffer to database";
+        return " from buffer.";
     }
 
     private String getActivity(String activity) {
