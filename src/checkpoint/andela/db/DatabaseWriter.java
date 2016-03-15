@@ -173,6 +173,11 @@ public class DatabaseWriter implements Runnable {
     }
     @Override
     public void run() {
+        try {
+            writeToDatabase();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
 
     }
 }
