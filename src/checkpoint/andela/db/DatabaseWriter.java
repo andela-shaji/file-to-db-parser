@@ -1,5 +1,6 @@
 package checkpoint.andela.db;
 
+import checkpoint.andela.Constants.Constants;
 import checkpoint.andela.log.LogBuffer;
 
 
@@ -19,10 +20,10 @@ public class DatabaseWriter implements Runnable {
     LogBuffer logBuffer = LogBuffer.getBuffer();
     ArrayList<String> existingDatabases = new ArrayList<String>();
 
-    private String db_Url = DatabaseConstants.DB_URL;
-    private String db_Name = DatabaseConstants.DBNAME;
-    private String db_Password = DatabaseConstants.PASS;
-    private String db_User = DatabaseConstants.USER;
+    private String db_Url = Constants.DBURL.toString();
+    private String db_Name = Constants.DBNAME.toString();
+    private String db_Password = Constants.PASS.toString();
+    private String db_User = Constants.USER.toString();
     private Connection connection = null;
     private Statement statement = null;
 
@@ -45,7 +46,7 @@ public class DatabaseWriter implements Runnable {
     }
 
     private Connection connectToDatabase(String dbName) throws SQLException {
-        registerDriver(DatabaseConstants.DRIVER);
+        registerDriver(Constants.DRIVER.toString());
         Connection connectDb = DriverManager.getConnection(db_Url + db_Name, db_User, db_Password);
         return connectDb;
     }
@@ -136,7 +137,7 @@ public class DatabaseWriter implements Runnable {
     }
 
     public ArrayList<String> getExistingDatabases() throws SQLException {
-        createDatabaseConnection(DatabaseConstants.DRIVER);
+        createDatabaseConnection(Constants.DRIVER.toString());
         ArrayList<String> listDatabases = new ArrayList<String>();
         ResultSet databases = connection.getMetaData().getCatalogs();
         while (databases.next()) {

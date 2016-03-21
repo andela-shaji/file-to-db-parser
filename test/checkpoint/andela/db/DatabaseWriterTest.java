@@ -1,5 +1,6 @@
 package checkpoint.andela.db;
 
+import checkpoint.andela.Constants.Constants;
 import checkpoint.andela.parser.AttributeValuePair;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,7 +103,7 @@ public class DatabaseWriterTest {
         dbRecords.put(databaseRecord);
         int afterRecords =  dbRecords.size();
 
-        dbWriter.createDatabaseConnection(DatabaseConstants.DRIVER);
+        dbWriter.createDatabaseConnection(Constants.DRIVER.toString());
         dbWriter.createDatabase(reactionsDatabase);
         dbWriter.createTable(reactionsDatabase, reactionsTable, tableFields);
         dbWriter.writeToDatabase();

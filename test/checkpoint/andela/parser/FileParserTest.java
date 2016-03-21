@@ -1,7 +1,7 @@
 package checkpoint.andela.parser;
 
+import checkpoint.andela.Constants.Constants;
 import checkpoint.andela.db.DatabaseRecord;
-import checkpoint.andela.db.DatabaseConstants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class FileParserTest {
 
     @Before
     public void setUp() throws Exception {
-        filePath = DatabaseConstants.FILEPATH;
+        filePath = Constants.FILEPATH.toString();
         fileParser = new FileParser(dataRecords, filePath);
     }
     @Test
