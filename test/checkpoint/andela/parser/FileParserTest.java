@@ -1,11 +1,11 @@
 package checkpoint.andela.parser;
 
+import checkpoint.andela.Constants.Constants;
+import checkpoint.andela.db.DatabaseBuffer;
 import checkpoint.andela.db.DatabaseRecord;
-import checkpoint.andela.db.DatabaseConstants;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import static org.junit.Assert.*;
@@ -14,27 +14,20 @@ import static org.junit.Assert.*;
  * Created by suadahaji.
  */
 public class FileParserTest {
-    private BlockingQueue<DatabaseRecord> dataRecords = new ArrayBlockingQueue<DatabaseRecord>(10);
+    DatabaseBuffer databaseBuffer = DatabaseBuffer.getDbBufferInstance();
+    private BlockingQueue<DatabaseRecord> parseToDbBuffer = databaseBuffer.getAllRecords();
+
     private String filePath;
     FileParser fileParser;
 
-
-
     @Before
     public void setUp() throws Exception {
-        filePath = DatabaseConstants.FILEPATH;
-        fileParser = new FileParser(dataRecords, filePath);
-    }
-    @Test
-    public void testFileParser() throws Exception {
-        Thread fileParserThread = new Thread(fileParser);
-        fileParserThread.start();
-        assertTrue(fileParserThread.isAlive());
-
+        filePath = Constants.FILEPATH.toString();
+        fileParser = new FileParser(parseToDbBuffer, filePath);
     }
 
     @Test
-    public void testProcessLine() throws Exception {
+    public void testwritetoBuffer() throws Exception {
         String line1 = "LEFT - WATER";
         String line2 = "TYPES - Chemical-Reactions";
 
@@ -61,6 +54,8 @@ public class FileParserTest {
 
         newDataRecord.addColumn(pair2);
         assertEquals(newDataRecord.getDbRecordSize(), 2);
+
+        fileParser.writeToBuffer();
     }
 
 }

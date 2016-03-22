@@ -1,8 +1,6 @@
 package checkpoint.andela.main;
 
-import checkpoint.andela.db.DatabaseConstants;
-import checkpoint.andela.db.DatabaseRecord;
-import checkpoint.andela.parser.AttributeValuePair;
+import checkpoint.andela.Constants.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +21,8 @@ public class MainTest {
 
     @Before
     public void setUp() throws Exception {
-        logPath = DatabaseConstants.LOGPATH;
-        filePath = DatabaseConstants.FILEPATH;
+        logPath = Constants.LOGPATH.toString();
+        filePath = Constants.FILEPATH.toString();
         main = new Main(filePath, logPath);
     }
 

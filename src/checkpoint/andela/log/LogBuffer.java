@@ -4,43 +4,48 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by suadahaji.
  */
 public class LogBuffer {
-    private static BlockingQueue<String> logList =  new ArrayBlockingQueue<String>(1);
+    private static BlockingQueue<String> logBuffer =  new LinkedBlockingQueue<String>();
 
-    private static LogBuffer buffer;
+    private static LogBuffer bufferInstance = null;
 
     private String logTime;
 
-    private LogBuffer() {}
+    public LogBuffer() {}
 
-    public static LogBuffer getBuffer () {
-        if (buffer == null) {
-            buffer = new LogBuffer();
+    public static LogBuffer getLogBufferInstance() {
+        if (bufferInstance == null) {
+            bufferInstance = new LogBuffer();
         }
-        return buffer;
+        return bufferInstance;
     }
 
-    public void writeToLog(String currentLog, String columnValue) {
+    public BlockingQueue<String> getLogBuffer() {
+        return logBuffer;
+    }
+
+    public void writeToLogBuffer(String currentLog, String columnValue) {
         Date date = new Date();
 
         logTime = new SimpleDateFormat("dd/MM/yy HH:mm").format(date);
         try {
-            logList.put(currentLog + " Thread (" + logTime + getActivity(currentLog) + "UNIQUE-ID " + columnValue + getTarget(currentLog));
+            logBuffer.put(currentLog + " Thread (" + logTime  +  getActivity(currentLog) + "UNIQUE-ID " + columnValue + getTarget(currentLog));
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
     }
 
     public String getLogList() throws InterruptedException {
-        return logList.take();
+        return logBuffer.take();
     }
 
     public boolean isEmpty() {
-        return logList.isEmpty();
+        return logBuffer.isEmpty();
     }
 
     private String getTarget(String currentLog) {
