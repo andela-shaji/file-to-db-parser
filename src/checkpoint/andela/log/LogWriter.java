@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class LogWriter implements Runnable {
 
-    private LogBuffer logBuffer = LogBuffer.getBuffer();
+    private LogBuffer logBuffer = LogBuffer.getLogBufferInstance();
 
     private BufferedWriter bufferedWriter;
 
@@ -19,7 +19,11 @@ public class LogWriter implements Runnable {
 
     @Override
     public void run() {
-        writeToFile();
+        try {
+            writeToFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeToFile() {

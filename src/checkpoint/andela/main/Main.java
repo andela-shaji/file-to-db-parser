@@ -1,5 +1,6 @@
 package checkpoint.andela.main;
 
+import checkpoint.andela.db.DatabaseBuffer;
 import checkpoint.andela.db.DatabaseRecord;
 import checkpoint.andela.db.DatabaseWriter;
 import checkpoint.andela.log.LogWriter;
@@ -14,12 +15,8 @@ public class Main {
     private String logPath;
     private String filePath;
 
-    public static BlockingQueue<DatabaseRecord> dbRecords = new ArrayBlockingQueue<DatabaseRecord>(5);
-    private static Future newActivity = null;
-
-    Runnable fileParserThread;
-    Runnable dbWriterThread;
-    Runnable logWriteThread;
+    DatabaseBuffer databaseBuffer = DatabaseBuffer.getDbBufferInstance();
+    BlockingQueue<DatabaseRecord> parseToDbBuffer = databaseBuffer.getAllRecords();
 
     public Main(String filePath, String logPath) throws Exception {
         setFilePath(filePath);
@@ -27,21 +24,13 @@ public class Main {
     }
 
     public void parseToDatabase() throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(5);
-        fileParserThread = new FileParser(dbRecords, filePath);
-        dbWriterThread = new DatabaseWriter(dbRecords);
-        logWriteThread = new LogWriter(logPath);
+        Thread fileParserThread = new Thread(new FileParser(parseToDbBuffer, filePath));
+        Thread dbWriterThread = new Thread(new DatabaseWriter(parseToDbBuffer));
+        Thread logWriterThread = new Thread(new LogWriter(logPath));
 
-        executor.submit(fileParserThread);
-        executor.submit(dbWriterThread);
-        executor.submit(logWriteThread);
-
-        if (newActivity == null) {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
-            executor.shutdown();
-        }
-
-
+        fileParserThread.run();
+        dbWriterThread.run();
+        logWriterThread.run();
     }
 
     public void setLogPath(String logPath) {

@@ -1,6 +1,6 @@
 package checkpoint.andela.log;
 
-import checkpoint.andela.db.DatabaseConstants;
+import checkpoint.andela.Constants.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,34 +13,24 @@ import java.io.File;
  */
 public class LogTest {
 
-    String fileParserLog;
-    String columnValue;
-    LogBuffer logBuffer;
     LogWriter logWriter;
+    String logPath;
+    LogBuffer logBuffer;
+    String currentLog;
+    String columnValue;
 
     @Before
     public void setUp() throws Exception {
-        logBuffer = LogBuffer.getBuffer();
-        fileParserLog = "FileParser";
-        columnValue = Double.toString(Math.random());
+        currentLog = "FileParser";
+        columnValue = "123456";
+        logBuffer = new LogBuffer();
+        logPath = Constants.LOGPATH.toString();
+        logWriter = new LogWriter(logPath);
     }
 
     @Test
     public void testWriteToFile() throws Exception {
-
-        //logBuffer.writeToLog(fileParserLog, columnValue);
-
-        File file = new File(DatabaseConstants.LOGPATH);
-
-        long lengthBefore = file.length();
-
-        logWriter = new LogWriter(DatabaseConstants.LOGPATH);
-
+        logBuffer.writeToLogBuffer(currentLog, columnValue);
         logWriter.run();
-
-        long lengthAfter = file.length();
-
-        assertTrue(lengthAfter > lengthBefore);
-
     }
 }

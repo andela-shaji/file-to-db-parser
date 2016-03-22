@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.*;
 
@@ -28,7 +29,7 @@ public class DatabaseWriterTest {
     public void setUp() throws Exception {
 
         databaseRecord = new DatabaseRecord();
-        dbRecords = new ArrayBlockingQueue<DatabaseRecord>(10);
+        dbRecords = new LinkedBlockingQueue<DatabaseRecord>();
         dbWriter = new DatabaseWriter(dbRecords);
         employeesDatabase = "employees";
         studentDatabase = "students";
@@ -41,48 +42,8 @@ public class DatabaseWriterTest {
     }
 
     @Test
-    public void testCreateDatabase() throws Exception {
-        dbWriter.deleteDatabase(employeesDatabase);
-        dbWriter.createDatabase(employeesDatabase);
-        assertTrue(dbWriter.databaseExists(employeesDatabase));
-    }
-
-    @Test
-    public void testDeleteDatabase() throws Exception {
-        //assertFalse(dbWriter.databaseExists(studentDatabase));
-        dbWriter.createDatabase(studentDatabase);
-        dbWriter.deleteDatabase(studentDatabase);
-        assertFalse(dbWriter.databaseExists(studentDatabase));
-    }
-
-    @Test
-    public void testRemoveTable() throws Exception {
-        dbWriter.deleteDatabase(reactionsDatabase);
-        dbWriter.createDatabase(reactionsDatabase);
-        dbWriter.createTable(reactionsDatabase, reactionsTable, tableFields);
-        dbWriter.removeTable(reactionsDatabase, reactionsTable);
-        assertFalse(dbWriter.tableExists(reactionsDatabase,reactionsTable));
-    }
-
-    @Test
-    public void testCreateTable() throws Exception {
-        dbWriter.deleteDatabase(reactionsDatabase);
-        dbWriter.createDatabase(reactionsDatabase);
-        dbWriter.createTable(reactionsDatabase, reactionsTable, tableFields);
-        assertTrue(dbWriter.tableExists(reactionsDatabase, reactionsTable));
-    }
-
-    @Test
-    public void testDatabaseExists() throws Exception {
-        dbWriter.deleteDatabase(reactionsDatabase);
-        assertFalse(dbWriter.databaseExists(reactionsDatabase));
-
-        dbWriter.createDatabase(reactionsDatabase);
-        assertTrue(dbWriter.databaseExists(reactionsDatabase));
-    }
-
-    @Test
     public void testWriteToDatabase() throws Exception {
+
         int beforeRecords = dbRecords.size();
         assertTrue(beforeRecords == 0);
 
@@ -103,9 +64,6 @@ public class DatabaseWriterTest {
         dbRecords.put(databaseRecord);
         int afterRecords =  dbRecords.size();
 
-        dbWriter.createDatabaseConnection(Constants.DRIVER.toString());
-        dbWriter.createDatabase(reactionsDatabase);
-        dbWriter.createTable(reactionsDatabase, reactionsTable, tableFields);
         dbWriter.writeToDatabase();
 
         assertTrue(afterRecords > beforeRecords);

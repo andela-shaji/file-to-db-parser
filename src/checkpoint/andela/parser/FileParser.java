@@ -1,5 +1,6 @@
 package checkpoint.andela.parser;
 
+import checkpoint.andela.db.DatabaseBuffer;
 import checkpoint.andela.db.DatabaseRecord;
 import checkpoint.andela.log.LogBuffer;
 
@@ -18,14 +19,15 @@ public class FileParser implements Runnable {
 
     private FileReader fileReader;
 
-    private BlockingQueue<DatabaseRecord> dataRecords;
+    DatabaseBuffer databaseBuffer = DatabaseBuffer.getDbBufferInstance();
+    private BlockingQueue<DatabaseRecord> records = databaseBuffer.getAllRecords();
 
     private BufferedReader bufferedReader;
 
-    LogBuffer logBuffer = LogBuffer.getBuffer();
+    LogBuffer logBuffer = LogBuffer.getLogBufferInstance();
 
-    public FileParser(BlockingQueue<DatabaseRecord> dataRecords, String filePath) {
-        this.dataRecords = dataRecords;
+    public FileParser(BlockingQueue<DatabaseRecord> records, String filePath) {
+        this.records = records;
         this.filePath = filePath;
     }
 
@@ -53,8 +55,9 @@ public class FileParser implements Runnable {
                     processLine(contentLine, newDataRecord);
                 } else if (hasDelimiter(contentLine)) {
                     String uniqueId = newDataRecord.getUniqueId();
-                    dataRecords.put(newDataRecord);
-                    logBuffer.writeToLog("FileParser", uniqueId);
+                    records.put(newDataRecord);
+                    logBuffer.writeToLogBuffer("FileParser", uniqueId);
+                    newDataRecord = new DatabaseRecord();
                 }
                 contentLine = bufferedReader.readLine();
             }
